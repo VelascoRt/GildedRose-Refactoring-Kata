@@ -1,4 +1,18 @@
 # -*- coding: utf-8 -*-
+class ItemUpdater:
+    def update(self, item):
+        self._update_sell_in(item)
+        self._update_quality(item)
+
+    def _update_sell_in(self, item):
+        item.sell_in -= 1
+
+    def _update_quality(self, item):
+        # comportamiento por defecto
+        if item.quality > 0:
+            item.quality -= 1
+        if item.sell_in < 0 and item.quality > 0:
+            item.quality -= 1
 
 class GildedRose(object):
 
@@ -40,11 +54,11 @@ class GildedRose(object):
 
     def update_quality(self):
         for item in self.items:
+            if self._is_sulfuras(item):
+                return  # no hacer nada
             self._update_aged_brie(item)
             self._update_backstage_pass(item)
             self._update_normal_item(item)
-            self._is_sulfuras(item)
-
 
 class Item:
     def __init__(self, name, sell_in, quality):
