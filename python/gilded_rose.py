@@ -27,6 +27,15 @@ class GildedRose(object):
                     if item.quality < 50:
                         item.quality = item.quality + 1
 
+
+    def _update_normal_item(self, item):
+        if item.name != self.AGED_BRIE and item.name != self.BACKSTAGE_PASSES:
+            if item.quality > 0:
+                if item.name != self.SULFURAS:
+                    item.quality = item.quality - 1
+
+
+
     def update_quality(self):
         for item in self.items:
             if item.name != self.AGED_BRIE and item.name != self.BACKSTAGE_PASSES:
