@@ -34,6 +34,8 @@ class GildedRose(object):
                 if item.name != self.SULFURAS:
                     item.quality = item.quality - 1
 
+    def _is_sulfuras(self, item):
+        return item.name == SULFURAS
 
 
     def update_quality(self):
