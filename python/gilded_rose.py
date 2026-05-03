@@ -34,6 +34,12 @@ class BackstagePassUpdater(ItemUpdater):
         else:
             self.item.quality = min(50, self.item.quality + 1)
 
+class ConjuredItemUpdater(ItemUpdater):
+    def update(self):
+        self.item.sell_in -= 1
+        degradation = 4 if self.item.sell_in < 0 else 2
+        self.item.quality = max(0, self.item.quality - degradation)
+
 # Factory para seleccionar el updater correcto
 class UpdaterFactory:
 
@@ -47,6 +53,10 @@ class UpdaterFactory:
     def for_item(cls, item):
         updater_class = cls._registry.get(item.name, NormalItemUpdater)
         return updater_class(item)
+    
+# Registrar en el factory — sin modificar ninguna clase existente
+UpdaterFactory._registry["Conjured Mana Cake"] = ConjuredItemUpdater
+
 
 # GildedRose simplificada
 class GildedRose:
